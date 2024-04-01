@@ -7,37 +7,55 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaEnvelope, FaLock, FaTextWidth } from "react-icons/fa";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-    const [show, setShow] = useState(true);
-    const { register, handleSubmit, reset} = useForm();
-    const axiosPublic = useAxiosPublic()
-    const { loading , createUser, googleSignIn} = useAuth();
-    const navigate = useNavigate();
+  const [show, setShow] = useState(true);
+  const { register, handleSubmit, reset } = useForm();
+  const axiosPublic = useAxiosPublic();
+  const { createUser, googleSignIn, updateUserProfiole } = useAuth();
+  const navigate = useNavigate();
 
+  // new user registration with email and password function 
+  const handleSignUp = async (data) => {
+    const name = data?.name;
+    const email = data?.email;
+    const password = data?.password;
 
-    const handleSignUp = async(data) => {
-         const name = data?.name;
-         const email = data?.email;
-         const password = data?.password;
+    const userRes = await createUser(email, password);
 
-        const res =  await createUser(email, password);
-        console.log(res);
+    if (userRes?.user?.uid) {
+      console.log("call");
+      await updateUserProfiole(name);
+      const res = await axiosPublic.post("/users", data);
+      console.log(res?.data);
+      if (res?.data?._id) {
+        Swal.fire("Sign up successfull");
+        navigate("/");
+        reset();
+      }
     }
+  };
 
-    const handleGoogleSignIn = () => {
-        googleSignIn()
-         .then(() => {
-           navigate("/")
-         })
-         .catch(error =>{
-            console.log(error);
-         })
-    }
+  // user registration with google function
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+      .then(async(res) => {
+        const name = res?.user?.displayName;
+        const email = res?.user?.email;
+        const photoURL = res?.user?.photoURL;
 
-    return (
-        <div className="container mx-auto min-h-screen flex justify-center items-center">
+        await axiosPublic.post("/users", { name, email, photoURL});
+  
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
+  return (
+    <div className="container mx-auto min-h-screen flex justify-center items-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap- items-center">
         <div className="hidden md:flex">
           <img
@@ -50,21 +68,20 @@ const SignUp = () => {
         </div>
 
         <div className="max-w-[400px] w-[400px] m-4 border p-10 border-blue-100 shadow-md">
-        <div>
-              <h2 className="text-4xl text-center font-bold mb-5 text-blue-500">
-                Sign Up
-              </h2>
-              
+          <div>
+            <h2 className="text-4xl text-center font-bold mb-5 text-blue-500">
+              Sign Up
+            </h2>
+
             <button
-               onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               className="mb-5 border rounded-md w-full p-3 text-lg font-semibold flex items-center justify-center gap-3"
             >
               <img src={googleIcon} alt="" />
-              Continue  with Google
+              Continue with Google
             </button>
-            </div>
-          <form  onSubmit={handleSubmit(handleSignUp)} className="space-y-3">
-
+          </div>
+          <form onSubmit={handleSubmit(handleSignUp)} className="space-y-3">
             <div className="form-control shadow-md">
               <div className="flex items-center border border-blue-300">
                 <span className="bg-blue-400 p-3 text-xl">
@@ -125,7 +142,7 @@ const SignUp = () => {
           <div>
             <p className="text-center">
               <small>
-              Already Have an account?{" "}
+                Already Have an account?{" "}
                 <Link
                   to="/login"
                   className="text-blue-500 font-semibold hover:underline"
@@ -138,7 +155,7 @@ const SignUp = () => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default SignUp;
