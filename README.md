@@ -18,12 +18,13 @@ Taskify Client is a front-end application for managing tasks efficiently. It pro
    git clone https://github.com/Atik-Sahariyar/taskify-client
 
 
-## Navigate to the project directory
+2. Navigate to the project directory
+   ```bash
     cd taskify-client
 
 
 
-## Install dependencies
+4. Install dependencies
 Set up the .env file following the example.env file
     ```bash
     npm install
