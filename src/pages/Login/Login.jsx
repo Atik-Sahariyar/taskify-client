@@ -2,7 +2,8 @@ import { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import googleIcon from "../../assets/google.png";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
@@ -25,7 +26,10 @@ const Login = () => {
     console.log(res);
     if (res) {
       reset()
-      Swal.fire("Login successfull");
+      toast.success("Login successfull!", {
+        position: 'top-right',
+        autoClose: 2000, 
+      });      
       navigate(from, { replace: true });
     }
   };
@@ -41,7 +45,10 @@ const Login = () => {
         const response =  await axiosPublic.post("/users", { name, email, photoURL});
 
         if(response?.data){
-          Swal.fire("Login successfull");
+          toast.success("Login successfull!", {
+            position: 'top-right',
+            autoClose: 2000, 
+          });
           navigate(from, { replace: true });
         }
      

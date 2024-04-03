@@ -1,8 +1,36 @@
-# React + Vite
+# Taskify Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Taskify Client is a front-end application for managing tasks efficiently. It provides features for creating, updating, and managing tasks in an organized manner. This project is built with React and integrates with Firebase for authentication and data storage.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- User authentication (Sign Up, Login) using Firebase Authentication.
+- Dashboard for managing tasks.
+- Task creation, updating, and deletion.
+- Task sorting and filtering.
+- Responsive design for mobile and desktop devices.
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Atik-Sahariyar/taskify-client
+
+# Navigate to the project directory
+
+   cd taskify-client
+
+# Install dependencies
+   npm install
+   npm run dev

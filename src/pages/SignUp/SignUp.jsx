@@ -7,7 +7,9 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaEnvelope, FaLock, FaTextWidth } from "react-icons/fa";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const SignUp = () => {
   const [show, setShow] = useState(true);
@@ -30,8 +32,10 @@ const SignUp = () => {
       const res = await axiosPublic.post("/users", data);
       console.log(res?.data);
       if (res?.data?._id) {
-        Swal.fire("Sign up successfull");
-        navigate("/");
+        toast.success("Sign up successfull!", {
+          position: 'top-right',
+          autoClose: 2000, 
+        });        navigate("/");
         reset();
       }
     }
@@ -46,6 +50,10 @@ const SignUp = () => {
         const photoURL = res?.user?.photoURL;
 
         await axiosPublic.post("/users", { name, email, photoURL});
+        toast.success("sign up successfull!", {
+          position: 'top-right',
+          autoClose: 2000, 
+        });
   
         navigate("/");
       })
