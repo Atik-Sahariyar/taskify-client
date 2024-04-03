@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyTask = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const email = localStorage.getItem("email");
 
   const { data: taskData = [], isPending } = useQuery({
     queryKey: ["myTask"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/tasks/${email}`);
+      const res = await axiosSecure.get(`/tasks/${email}`);
       return res.data;
     },
   });

@@ -8,7 +8,7 @@ const useMyTasks = () => {
   const {data: tasksData, isPending, refetch} = useQuery({
     queryKey: ["myTasks"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/tasks/${email}`);
+      const res = await axiosPublic.get(`/tasks/${email}`, { withCredentials: true});
       return res?.data;
     },
   });

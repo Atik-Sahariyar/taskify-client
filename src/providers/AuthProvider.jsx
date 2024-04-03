@@ -9,13 +9,14 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-
+import useAxiosPublic from "../hooks/useAxiosPublic.jsx"
 import app from "../firebase/firebase.config.js";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic = useAxiosPublic()
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
@@ -62,11 +63,18 @@ const AuthProvider = ({ children }) => {
 
   // current user
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async(currentUser) => {
       setUser(currentUser);
       if (currentUser) {
         localStorage.setItem("email", currentUser?.email);
         setLoading(false);
+        if (currentUser?.email) {
+          const userEmail = { email: currentUser?.email };
+        await axiosPublic
+            .post("/jwt", {userEmail}, {
+              withCredentials: true
+            })
+        }
       }
       console.log("Current user:", currentUser ? currentUser : "Not logged in");
     });

@@ -38,9 +38,13 @@ const Login = () => {
         const name = res?.user?.displayName;
         const email = res?.user?.email;
         const photoURL = res?.user?.photoURL;
-        await axiosPublic.post("/users", { name, email, photoURL});
-        Swal.fire("Login successfull");
-        navigate(from, { replace: true });
+        const response =  await axiosPublic.post("/users", { name, email, photoURL});
+
+        if(response?.data){
+          Swal.fire("Login successfull");
+          navigate(from, { replace: true });
+        }
+     
       })
       .catch((error) => {
         console.log(error);

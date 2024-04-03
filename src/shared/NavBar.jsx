@@ -25,8 +25,7 @@ const NavBar = () => {
   const navLinks = (
     <>
       <NavLink to="/" className={isLinkActive("/")}>Home</NavLink>
-      <NavLink to="/about" className={isLinkActive("/about")}>About</NavLink>
-      <NavLink to="/services" className={isLinkActive("/services")} >Services</NavLink>
+
       {user ? (
         <>
           <NavLink to="/dashboard" className={isLinkActive("/dashboard")}>Dashboard</NavLink>
@@ -64,9 +63,9 @@ const NavBar = () => {
             {navLinks}
           </ul>
         </div>
-        <div className=" flex gap-1">
+        <div className=" flex items-center gap-1">
           <img
-            src="https://i.ibb.co/hKDHXdx/task-management-software-34-1024x511.png"
+            src="https://i.ibb.co/Bn1zCWd/taskify-Logo.png"
             className=" w-20  rounded-br-lg rounded-tl-lg"
             alt="logo"
           />

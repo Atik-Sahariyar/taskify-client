@@ -3,7 +3,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import useMyTasks from "../hooks/useMyTasks";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 const email = localStorage.getItem("email");
@@ -56,30 +59,46 @@ const Task = ({
 const AllTasks = () => {
   const { todoTasks, ongoingTasks, completedTasks, isPending, refetch } =
     useMyTasks();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure()
 
   if (isPending) {
     return <div className=" text-center">Loading...</div>;
   }
 
   // delete a task
-  const handleDeleteTask = async (id, taskCreatorEmail) => {
-    const proceed = confirm("Are You sure you want to delete");
-    if (!proceed) {
-      ("");
-    } else if (email !== taskCreatorEmail) {
-      Swal.fire("Only the person who created this task can delete it");
-    } else {
-      try {
-        const response = await axiosPublic.delete(`/tasks/${id}`);
-        if (response.data) {
-          Swal.fire("Deleted successfull");
-          refetch();
-        }
-      } catch (error) {
-        console.error("Error fetching assinment: ", error);
+  const handleDeleteTask = async (id) => {
+    Swal.fire({
+      title: "Delete task",
+      text: `Are you sure you want to delete the  task}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/task/${id}`)
+          .then((response) => {
+            if (response.data) {
+              toast.success("Your task has been deleted.", {
+                position: 'top-right',
+                autoClose: 2000, 
+              });
+              refetch();
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting task:", error);
+            Swal.fire(
+              "Error!",
+              "An error occurred while deleting the task.",
+              "error"
+            );
+            
+          });
       }
-    }
+    });
   };
 
   const tasks = {
@@ -90,7 +109,7 @@ const AllTasks = () => {
 
   const moveTask = async (source, destination, taskId) => {
     try {
-      const res = await axiosPublic.patch(`/tasks/${taskId}`, {
+      const res = await axiosSecure.patch(`/task/${taskId}`, {
         status: destination,
       });
       if (res.status === 200) {

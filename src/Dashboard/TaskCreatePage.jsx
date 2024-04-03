@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAuth from "../hooks/useAuth";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const TaskCreationPage = () => {
   const { user } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const {
     register,
@@ -35,13 +35,12 @@ const TaskCreationPage = () => {
       status: "todo",
     };
 
-    const res = await axiosPublic.post("/tasks", taskData);
-    console.log(res.data);
+    const res = await axiosSecure.post("/tasks", taskData);
+
     if (res.data?._id) {
-      toast.configure();
       toast.success("New task created successfully!", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
+        position: 'top-right',
+        autoClose: 2000, 
       });
       navigate("/dashboard/allTasks");
       reset();

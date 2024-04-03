@@ -8,6 +8,7 @@ import TaskCreationPage from "../Dashboard/TaskCreatePage";
 import AllTasks from "../Dashboard/AllTasks";
 import MyTask from "../Dashboard/MyTasks";
 import UpdateTask from "../Dashboard/UpdateTask";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomePage />,
       },
+ 
     ],
   },
   {
@@ -29,26 +31,31 @@ const router = createBrowserRouter([
     element: <Login />,
   },
 
-//   dashboard routes
+  //   dashboard routes
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
-        path: "taskCreate",
-        element: <TaskCreationPage />
+        path: "/dashboard",
+        element: <AllTasks />,
       },
       {
-        path: "allTasks",
-        element: <AllTasks />
+        path: "taskCreate",
+        element: <TaskCreationPage />,
       },
+    
       {
         path: "updateTask/:id",
-        element: <UpdateTask />
+        element: <UpdateTask />,
       },
       {
         path: "myTasks",
-        element: <MyTask />
+        element: <MyTask />,
       },
     ],
   },
