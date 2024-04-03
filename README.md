@@ -2,15 +2,6 @@
 
 Taskify Client is a front-end application for managing tasks efficiently. It provides features for creating, updating, and managing tasks in an organized manner. This project is built with React and integrates with Firebase for authentication and data storage.
 
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -27,10 +18,11 @@ Taskify Client is a front-end application for managing tasks efficiently. It pro
    ```bash
    git clone https://github.com/Atik-Sahariyar/taskify-client
 
-# Navigate to the project directory
-
+## Navigate to the project directory
+  ```bash
    cd taskify-client
 
-# Install dependencies
+## Install dependencies
+   ```bash
    npm install
    npm run dev
